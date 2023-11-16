@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # face_recognition_app
 
 A new Flutter project.
@@ -14,3 +15,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# 3_2-SWD-AI<br>
+# This is an emotion detection app.
+>>>>>>> 77cb265b1c09545c3149ba3c5d0c1c7cc1dc09ca
