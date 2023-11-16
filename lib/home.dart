@@ -2,9 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:face_recognition_app/main.dart';
 import 'package:tflite/tflite.dart';
-void main(){
-  runApp
-}
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
