@@ -4,8 +4,7 @@ import 'package:camera/camera.dart';
 List<CameraDescription>? cameras;
 
 void main() async {
-  var widgetsFlutterBinding;
-  widgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
   runApp(const MyApp());
 }

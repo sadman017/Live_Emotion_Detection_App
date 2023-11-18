@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:face_recognition_app/main.dart';
 import 'package:tflite/tflite.dart';
 
+
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
-  State <Home> createState() =>  HomeState();
+  State<Home> createState() =>  _HomeState();
 }
 
-
-
-class  HomeState extends State <Home> {
+class  _HomeState extends State<Home> {
   CameraImage? cameraImage;
   CameraController? cameraController;
   String output = '';
@@ -42,7 +41,7 @@ class  HomeState extends State <Home> {
 
   runModel()async{
     if(cameraImage!=null){
-      var predictions = await Tflite.runModelOnFrame(
+      var predictions = await Tfllite.runModelOnFrame(
           bytesList: cameraImage!.planes.map((plane){
             return plane.bytes;
       }).toList(),
@@ -54,17 +53,21 @@ class  HomeState extends State <Home> {
       numResults: 2,
       threshold: 0.1,
       asynch: true);
-      for (var element in predictions!) {
-        setState(() {
-          output = element['Label'];
-        });
-      }
+        predictions!.forEach((element){
+        setState((){
+          output = element['label'];
+        }
+        );
+
+      });
     }
   }
 
 loadmodel() async {
-    await Tflite.loadModel(
-        model: "assets/model.tflite",labels: "assets/labels.txt");
+  
+   await Tflite.loadModel(
+        model: "assets/model.tflite",
+        labels: "assets/labels.txt");
 }
 
   @override
