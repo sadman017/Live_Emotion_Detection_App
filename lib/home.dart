@@ -41,7 +41,7 @@ class  _HomeState extends State<Home> {
 
   runModel()async{
     if(cameraImage!=null){
-      var predictions = await Tfllite.runModelOnFrame(
+      var predictions = await Tflite.runModelOnFrame(
           bytesList: cameraImage!.planes.map((plane){
             return plane.bytes;
       }).toList(),
@@ -53,13 +53,13 @@ class  _HomeState extends State<Home> {
       numResults: 2,
       threshold: 0.1,
       asynch: true);
-        predictions!.forEach((element){
+        for (var element in predictions!) {
         setState((){
           output = element['label'];
         }
         );
 
-      });
+      }
     }
   }
 
