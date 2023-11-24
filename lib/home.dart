@@ -1,17 +1,16 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:face_recognition_app/main.dart';
-import 'package:tflite/tflite.dart';
-
+import 'package:tflite_v2/tflite_v2.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() =>  _HomeState();
+  State<Home> createState() => _HomeState();
 }
 
-class  _HomeState extends State<Home> {
+class _HomeState extends State<Home> {
   CameraImage? cameraImage;
   CameraController? cameraController;
   String output = '';
@@ -22,15 +21,15 @@ class  _HomeState extends State<Home> {
     loadCamera();
     loadmodel();
   }
-  loadCamera(){
+
+  loadCamera() {
     cameraController = CameraController(cameras![0], ResolutionPreset.medium);
-    cameraController!.initialize().then((value){
-      if(!mounted){
+    cameraController!.initialize().then((value) {
+      if (!mounted) {
         return;
-      }
-      else{
+      } else {
         setState(() {
-          cameraController!.startImageStream((imageStream){
+          cameraController!.startImageStream((imageStream) {
             cameraImage = imageStream;
             runModel();
           });
@@ -39,61 +38,56 @@ class  _HomeState extends State<Home> {
     });
   }
 
-  runModel()async{
-    if(cameraImage!=null){
+  runModel() async {
+    if (cameraImage != null) {
       var predictions = await Tflite.runModelOnFrame(
-          bytesList: cameraImage!.planes.map((plane){
+          bytesList: cameraImage!.planes.map((plane) {
             return plane.bytes;
-      }).toList(),
-      imageHeight: cameraImage!.height,
-      imageWidth: cameraImage!.width,
-      imageMean: 127.5,
-      imageStd: 127.5,
-      rotation: 90,
-      numResults: 2,
-      threshold: 0.1,
-      asynch: true);
-        for (var element in predictions!) {
-        setState((){
+          }).toList(),
+          imageHeight: cameraImage!.height,
+          imageWidth: cameraImage!.width,
+          imageMean: 127.5,
+          imageStd: 127.5,
+          rotation: 90,
+          numResults: 2,
+          threshold: 0.1,
+          asynch: true);
+      for (var element in predictions!) {
+        setState(() {
           output = element['label'];
-        }
-        );
-
+        });
       }
     }
   }
 
-loadmodel() async {
-  
-   await Tflite.loadModel(
-        model: "assets/model.tflite",
-        labels: "assets/labels.txt");
-}
+  loadmodel() async {
+    await Tflite.loadModel(
+        model: "assets/model.tflite", labels: "assets/labels.txt");
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:const Text('Live Emotion Detection App')),
-      body: Column(
-        children: [
-          Padding(padding:
-          const EdgeInsets.all(20),
+      appBar: AppBar(title: const Text('Live Emotion Detection App')),
+      body: Column(children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height*.7,
-            width: MediaQuery.of(context).size.width*.7,
-            child:!cameraController!.value.isInitialized?
-            Container():
-            AspectRatio(aspectRatio: cameraController!.value.aspectRatio,
-            child: CameraPreview(cameraController!),),
+            height: MediaQuery.of(context).size.height * .7,
+            width: MediaQuery.of(context).size.width * .7,
+            child: !cameraController!.value.isInitialized
+                ? Container()
+                : AspectRatio(
+                    aspectRatio: cameraController!.value.aspectRatio,
+                    child: CameraPreview(cameraController!),
+                  ),
           ),
-          ),
-          Text(output,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20
-          ),)
-        ]
-      ),
+        ),
+        Text(
+          output,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        )
+      ]),
     );
   }
 }
