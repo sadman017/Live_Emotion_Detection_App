@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 # face_recognition_app
 
 A new Flutter project.
-
+# This is an AI based app, which determines the mood of people by processing their image.
 ## Getting Started
 
 This project is a starting point for a Flutter application.
