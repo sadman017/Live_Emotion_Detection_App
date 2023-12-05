@@ -1,4 +1,4 @@
-import 'package:face_recognition_app/home.dart';
+import 'package:face_recognition_app/first_page.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 List<CameraDescription>? cameras;
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(primaryColor: Colors.deepPurple),debugShowCheckedModeBanner: false,
-      home: const Home(),
+      home: const FirstPage(),
 
     );
   }
