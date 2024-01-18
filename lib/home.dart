@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
 
   loadmodel() async {
     await Tflite.loadModel(
-        model: "assets/model.tflite", labels: "assets/labels.txt");
+        model: "assets/model_unquant.tflite", labels: "assets/labels.txt");
   }
 
   @override
